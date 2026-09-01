@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campanha Ander por Felipe</title>
+    <style>
+        :root {
+            --primary: #0d6efd;
+            --success: #198754;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --muted: #6c757d;
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 0 0 40px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .hero {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            color: white;
+            padding: 40px 20px 20px;
+        }
+
+        .hero-overlay h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .hero-overlay p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .progress-section {
+            background: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .progress-header .raised {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--success);
+        }
+
+        .progress-header .goal {
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        .progress-bar-wrapper {
+            background: #e9ecef;
+            border-radius: 20px;
+            height: 20px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-bar-fill {
+            background: var(--success);
+            height: 100%;
+            width: 82.8%;
+            border-radius: 20px;
+            transition: width 0.6s ease;
+        }
+
+        .btn-contribute {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s, transform 0.2s;
+            text-align: center;
+            width: 100%;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .btn-contribute:hover {
+            background: #0b5ed7;
+            transform: translateY(-2px);
+        }
+
+        .story-section {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .story-section h2 {
+            margin-bottom: 20px;
+            color: #333;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+
+        .story-section p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .story-section img {
+            width: 100%;
+            border-radius: var(--radius);
+            margin: 20px 0;
+        }
+
+        .donation-options {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .donation-options h2 {
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .value-option {
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            font-size: 1.2rem;
+            background: #f8f9fa;
+            position: relative;
+        }
+
+        .value-option:hover {
+            border-color: var(--primary);
+            background: #e7f1ff;
+        }
+
+        .value-option.selected {
+            border-color: var(--primary);
+            background: #cfe2ff;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+        }
+
+        .value-option .badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--danger);
+            color: white;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-weight: normal;
+        }
+
+        /* Campo de valor personalizado */
+        #customAmountWrapper {
+            display: none;
+            margin-bottom: 15px;
+        }
+        #customAmount {
+            width: 100%;
+            padding: 10px;
+            font-size: 1.2rem;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .donate-btn-selected {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .donate-btn-selected:hover {
+            background: #157347;
+        }
+
+        /* Depoimentos com fotos */
+        .testimonials {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .testimonials h2 {
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+
+        .testimonial-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+
+        .testimonial-item:last-child {
+            border-bottom: none;
+        }
+
+        .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 2px solid #eee;
+        }
+
+        .testimonial-content {
+            flex: 1;
+        }
+
+        .testimonial-content .name {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .testimonial-content .time {
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        .testimonial-content .message {
+            margin-top: 5px;
+            color: #555;
+        }
+
+        .footer-links {
+            text-align: center;
+            margin-top: 30px;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-links a {
+            color: var(--muted);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .hero-overlay h1 {
+                font-size: 1.6rem;
+            }
+            .progress-header .raised {
+                font-size: 1.4rem;
+            }
+            .values-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Hero Section com imagem principal -->
+    <div class="hero">
+        <img src="https://andeporfelipe.com/img/saq.webp" alt="Felipe sorrindo em sua cadeira de rodas">
+        <div class="hero-overlay">
+            <h1>Ajude o Felipe a conseguir a cadeira motorizada que precisa para trabalhar</h1>
+            <p>Campanha Ander por Felipe</p>
+        </div>
+    </div>
+
+    <!-- Seção de progresso da arrecadação -->
+    <div class="progress-section">
+        <div class="progress-header">
+            <span class="raised">R$ 37.266,00</span>
+            <span class="goal">de R$ 45.000,00</span>
+        </div>
+        <div class="progress-bar-wrapper">
+            <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+        <button class="btn-contribute" onclick="scrollToDonation()">QUERO CONTRIBUIR</button>
+    </div>
+
+    <!-- História do Felipe -->
+    <div class="story-section">
+        <h2>A História do Felipe</h2>
+        <p>O Felipe tem 19 anos. Nasceu sem as duas pernas e sem os dois braços.</p>
+        <p>E é ele quem traz o que vai pra mesa em casa.</p>
+        <p>Faz dois anos que ele passa das oito às cinco na calçada de uma avenida, com o balde no colo. Não consegue empurrar a cadeira. Não consegue nem segurar o cartaz.</p>
+        <p>Em casa são a mãe, o Felipe, e três irmãos menores. O Davi, o do meio, tem autismo severo. Não fala. A mãe não consegue trabalhar fora — o Davi precisa dela do lado o tempo todo.</p>
+        <img src="https://andeporfelipe.com/img/sa.webp" alt="Felipe e seus irmãos">
+        <p>O Miguel é o menor, tem 4 anos. Toda tarde ele senta na porta esperando o Felipe voltar.</p>
+        <p>Uma senhora sugeriu a ele que vendesse paçoca na rua — caixa aberta no colo, as pessoas pegam sozinhas e deixam o troco. Se tivesse uma cadeira motorizada de controle de queixo, ele sairia de casa sozinho. Rodaria bairros diferentes. Não estaria mais pedindo. Estaria trabalhando.</p>
+        <p>A cadeira custa o que ele junta em seis meses de balde.</p>
+        <p>O Felipe já passou dois anos no chão daquela avenida pelos três irmãos. Nunca abaixou a cabeça de quem passou.</p>
+    </div>
+
+    <!-- Seção de doação com seleção de valores -->
+    <div class="donation-options" id="donationSection">
+        <h2>Contribuir</h2>
+        <p style="margin-bottom: 20px;">Se quiser fazer parte dessa história, tudo que conseguirmos aqui embaixo vai direto para a cadeira do Felipe!</p>
+        <p style="font-weight: bold; margin-bottom: 15px;">SELECIONE O VALOR QUE DESEJA CONTRIBUIR</p>
+
+        <div class="values-grid" id="valuesGrid">
+            <div class="value-option" data-value="30">R$ 30</div>
+            <div class="value-option selected" data-value="50">R$ 50 <span class="badge">MAIS ESCOLHIDO</span></div>
+            <div class="value-option" data-value="75">R$ 75</div>
+            <div class="value-option" data-value="100">R$ 100</div>
+            <div class="value-option" data-value="200">R$ 200</div>
+            <div class="value-option" data-value="250">R$ 250</div>
+            <div class="value-option" data-value="300">R$ 300</div>
+            <div class="value-option" data-value="500">R$ 500</div>
+            <div class="value-option" data-value="700">R$ 700</div>
+            <div class="value-option" data-value="1000">R$ 1000</div>
+            <!-- Nova opção: Outro valor -->
+            <div class="value-option" data-value="custom">Outro valor</div>
+        </div>
+
+        <!-- Campo para valor personalizado (oculto por padrão) -->
+        <div id="customAmountWrapper">
+            <input type="number" id="customAmount" min="1" step="0.01" placeholder="Digite o valor desejado (R$)">
+        </div>
+
+        <button class="donate-btn-selected" id="donateButton" onclick="handleDonation()">DOAR AGORA</button>
+        <p style="text-align: center; margin-top: 10px; color: var(--muted); font-size: 0.9rem;">
+            Você será redirecionado para o pagamento seguro.
+        </p>
+    </div>
+
+    <!-- Depoimentos com fotos -->
+    <div class="testimonials">
+        <h2>Pessoas que Contribuíram</h2>
+
+        <div class="testimonial-item">
+            <img src="https://i.pravatar.cc/60?img=12" alt="Foto de Ricardo" class="testimonial-avatar">
+            <div class="testimonial-content">
+                <span class="name">Ricardo</span> <span class="time">• há 4 h</span>
+                <p class="message">Mandei 50. Melhoras pro Felipe.</p>
+            </div>
+        </div>
+
+        <div class="testimonial-item">
+            <img src="https://i.pravatar.cc/60?img=5" alt="Foto de Daniela" class="testimonial-avatar">
+            <div class="testimonial-content">
+                <span class="name">Daniela</span> <span class="time">• há 3 h</span>
+                <p class="message">Vi no Instagram. Torcendo aí pra família.</p>
+            </div>
+        </div>
+
+        <div class="testimonial-item">
+            <img src="https://i.pravatar.cc/60?img=9" alt="Foto de Maria" class="testimonial-avatar">
+            <div class="testimonial-content">
+                <span class="name">Maria</span> <span class="time">• ontem</span>
+                <p class="message">Não é muito, mas ajuda um pouco.</p>
+            </div>
+        </div>
+
+        <div class="testimonial-item">
+            <img src="https://i.pravatar.cc/60?img=20" alt="Foto de Paula" class="testimonial-avatar">
+            <div class="testimonial-content">
+                <span class="name">Paula</span> <span class="time">• há 1 dia</span>
+                <p class="message">Força pra mãe dele também.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <div class="footer-links">
+        <a href="#">Políticas de Privacidade</a> | <a href="#">Termos de Serviço</a>
+    </div>
+</div>
+
+<script>
+    // Garantir que a barra de progresso tenha a largura correta ao carregar
+    document.addEventListener('DOMContentLoaded', function () {
+        const progressFill = document.getElementById('progressFill');
+        progressFill.style.width = '82.8%';
+    });
+
+    // Seleção de valores
+    const valueOptions = document.querySelectorAll('.value-option');
+    const customAmountWrapper = document.getElementById('customAmountWrapper');
+    const customAmountInput = document.getElementById('customAmount');
+    let selectedValue = 50; // valor padrão (mais escolhido)
+
+    valueOptions.forEach(option => {
+        option.addEventListener('click', function () {
+            valueOptions.forEach(opt => opt.classList.remove('selected'));
+            this.classList.add('selected');
+
+            if (this.getAttribute('data-value') === 'custom') {
+                customAmountWrapper.style.display = 'block';
+                selectedValue = 'custom';
+                customAmountInput.focus();
+            } else {
+                customAmountWrapper.style.display = 'none';
+                selectedValue = this.getAttribute('data-value');
+            }
+        });
+    });
+
+    function scrollToDonation() {
+        document.getElementById('donationSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function handleDonation() {
+        let finalValue;
+        if (selectedValue === 'custom') {
+            finalValue = parseFloat(customAmountInput.value);
+            if (!finalValue || finalValue <= 0) {
+                alert('Por favor, digite um valor válido.');
+                return;
+            }
+        } else {
+            finalValue = parseFloat(selectedValue);
+        }
+
+        // Redireciona para a página do PIX com o valor como parâmetro
+        window.location.href = `pix.html?valor=${finalValue.toFixed(2)}`;
+    }
+</script>
+
+</body>
+</html>
